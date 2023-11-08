@@ -15,12 +15,12 @@ return new class extends Migration
             $table->id();
             $table->char('nis', 10)->index();
             $table->date('tgl_presensi');
-            $table->time('jam_in');
-            $table->time('jam_out');
-            $table->string('foto_in');
-            $table->string('foto_out');
-            $table->text('location_in');
-            $table->text('location_out');
+            $table->time('jam_in')->nullable();
+            $table->time('jam_out')->nullable();
+            $table->string('foto_in')->nullable();
+            $table->string('foto_out')->nullable();
+            $table->text('location_in')->nullable();
+            $table->text('location_out')->nullable();
             $table->timestamps();
         });
     }
