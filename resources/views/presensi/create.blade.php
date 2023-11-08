@@ -103,7 +103,12 @@
                  },
                  cache: false,
                  success: function(respond) {
-
+                     if (respond.status === true) {
+                         alert(respond.message);
+                     }
+                 },
+                 error: function(err) {
+                     alert(err.responseJSON.message);
                  }
              });
          });

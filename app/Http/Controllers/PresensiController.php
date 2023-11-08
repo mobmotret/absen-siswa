@@ -39,9 +39,15 @@ class PresensiController extends Controller
         $simpan = DB::table('presensi')->insert($data);
         if ($simpan) {
             Storage::put($file, $image_base64);
-            echo "1";
+            return response()->json([
+                'status' => true,
+                'message' => 'Sudah Presensi.'
+            ], 200);
         } else {
-            echo "0";
+            return response()->json([
+                'status' => false,
+                'message' => 'Terjadi kesalahan di server.'
+            ], 500);
         }
     }
 }
