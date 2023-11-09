@@ -16,7 +16,7 @@ class DashboardController extends Controller
         $nis = Auth::guard('siswa')->user()->nis;
         $presensihariini = DB::table('presensi')->where('nis', $nis)->where('tgl_presensi', $hariini)->first();
         $historibulanini = DB::table('presensi')->whereRaw('MONTH(tgl_presensi)="'.$bulanini. '"')
-                ->whereRaw('YEAR(tgl_presensi)="'.$tahunini. '"')
+                ->whereRaw('YEAR(tgl_presensi)="'.$tahunini. '"')->where('nis', $nis)
                 ->orderBy('tgl_presensi')
                 ->get();
         return view('dashboard.dashboard', compact('presensihariini', 'historibulanini'));

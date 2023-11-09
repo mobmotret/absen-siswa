@@ -14,11 +14,11 @@ class SiswaSeeder extends Seeder
     public function run(): void
     {
         Siswa::create([
-            'nis' => '10203040',
-            'nama_lengkap' => 'Budi Setiawan',
+            'nis' => '12345',
+            'nama_lengkap' => 'Ircham Ali',
             'kelas' => 'XII RPL',
-            'no_hp' => '08123456789',
-            'password' => bcrypt('123456'),
+            'no_hp' => '0812345559',
+            'password' => bcrypt('12345'),
         ]);
     }
 }
