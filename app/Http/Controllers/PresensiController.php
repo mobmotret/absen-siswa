@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class PresensiController extends Controller
@@ -26,7 +27,21 @@ class PresensiController extends Controller
         $image_base64 = base64_decode($image_part[1]);
         $fileName = $formatName . ".png";
         $file = $folderPath . $fileName;
-        Storage::put($file, $image_base64);
-        echo "0";
+
+        $data = [
+            'nis' => $nis,
+            'tgl_presensi' => $tgl_presensi,
+            'jam_in' => $jam,
+            'foto_in' => $fileName,
+            'location_in' => $lokasi,
+        ];
+
+        $simpan = DB::table('presensi')->insert($data);
+        if ($simpan) {
+            Storage::put($file, $image_base64);
+            echo "1";
+        } else {
+            echo "0";
+        }
     }
 }
