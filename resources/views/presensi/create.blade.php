@@ -38,17 +38,17 @@
      </div>
      <div class="row">
          <div class="col">
-            @if ($cek > 0)
-            <button id="takeabsen" class="btn btn-danger btn-block">
-                <ion-icon name="camera-outline"></ion-icon>
-                Absen Pulang
-           </button>
-            @else
-            <button id="takeabsen" class="btn btn-primary btn-block">
-                <ion-icon name="camera-outline"></ion-icon>
-                Absen Masuk
-            </button>
-            @endif
+             @if ($cek > 0)
+                 <button id="takeabsen" class="btn btn-danger btn-block">
+                     <ion-icon name="camera-outline"></ion-icon>
+                     Absen Pulang
+                 </button>
+             @else
+                 <button id="takeabsen" class="btn btn-primary btn-block">
+                     <ion-icon name="camera-outline"></ion-icon>
+                     Absen Masuk
+                 </button>
+             @endif
 
          </div>
      </div>
@@ -83,7 +83,7 @@
                  attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
              }).addTo(map);
              var marker = L.marker([position.coords.latitude, position.coords.longitude]).addTo(map);
-             var circle = L.circle([position.coords.latitude, position.coords.longitude], {
+             var circle = L.circle([{{ $latDepartment }}, {{ $longDepartment }}], {
                  color: 'red',
                  fillColor: '#f03',
                  fillOpacity: 0.5,
@@ -113,22 +113,22 @@
                  cache: false,
                  success: function(respond) {
                      if (respond.status === true) {
-                        Swal.fire({
-                        title: 'Berhasil',
-                        text: respond.message,
-                        icon: 'success',
-                        confirmButtonText: 'Ok'
-                        })
-                        setTimeout("location.href='/dashboard'",3000)
+                         Swal.fire({
+                             title: 'Berhasil',
+                             text: respond.message,
+                             icon: 'success',
+                             confirmButtonText: 'Ok'
+                         })
+                         setTimeout("location.href='/dashboard'", 3000)
                      }
                  },
                  error: function(err) {
-                        Swal.fire({
-                        title: 'Berhasil',
-                        text: err.responseJSON.message,
-                        icon: 'success',
-                        confirmButtonText: 'Ok'
-                        })
+                     Swal.fire({
+                         title: 'Gagal',
+                         text: err.responseJSON.message,
+                         icon: 'error',
+                         confirmButtonText: 'Ok'
+                     })
                  }
              });
          });
