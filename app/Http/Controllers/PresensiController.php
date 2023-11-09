@@ -11,7 +11,10 @@ class PresensiController extends Controller
 {
     public function create()
     {
-        return view('presensi.create');
+        $hariini = date("Y-m-d");
+        $nis = Auth::guard('siswa')->user()->nis;
+        $cek = DB::table('presensi')->where('tgl_presensi', $hariini)->where('nis',$nis)->count();
+        return view('presensi.create', compact('cek'));
     }
 
     public function store(Request $request)
@@ -28,26 +31,55 @@ class PresensiController extends Controller
         $fileName = $formatName . ".png";
         $file = $folderPath . $fileName;
 
-        $data = [
-            'nis' => $nis,
-            'tgl_presensi' => $tgl_presensi,
-            'jam_in' => $jam,
-            'foto_in' => $fileName,
-            'location_in' => $lokasi,
-        ];
 
-        $simpan = DB::table('presensi')->insert($data);
-        if ($simpan) {
-            Storage::put($file, $image_base64);
-            return response()->json([
-                'status' => true,
-                'message' => 'Sudah Presensi.'
-            ], 200);
-        } else {
-            return response()->json([
-                'status' => false,
-                'message' => 'Terjadi kesalahan di server.'
-            ], 500);
+
+        $cek = DB::table('presensi')->where('tgl_presensi', $tgl_presensi)->where('nis',$nis)->count();
+        if ($cek > 0){
+            $data_pulang = [
+                'jam_out' => $jam,
+                'foto_out' => $fileName,
+                'location_out' => $lokasi,
+            ];
+            $update = DB::table('presensi')->where('tgl_presensi', $tgl_presensi)->where('nis',$nis)->update($data_pulang);
+
+            if ($update) {
+                Storage::put($file, $image_base64);
+                return response()->json([
+                    'status' => true,
+                    'message' => 'Sudah Presensi.'
+                ], 200);
+            } else {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Terjadi kesalahan di server.'
+                ], 500);
+            }
+
+        }else{
+            $data = [
+                'nis' => $nis,
+                'tgl_presensi' => $tgl_presensi,
+                'jam_in' => $jam,
+                'foto_in' => $fileName,
+                'location_in' => $lokasi,
+            ];
+
+            $simpan = DB::table('presensi')->insert($data);
+            if ($simpan) {
+                Storage::put($file, $image_base64);
+                return response()->json([
+                    'status' => true,
+                    'message' => 'Sudah Presensi.'
+                ], 200);
+            } else {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Terjadi kesalahan di server.'
+                ], 500);
+            }
+
+
         }
+
     }
 }

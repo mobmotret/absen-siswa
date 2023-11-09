@@ -32,15 +32,24 @@
  @section('content')
      <div class="row" style="margin-top: 70px;">
          <div class="col">
-             <input type="text" id="lokasi">
+             <input type="hidden" id="lokasi">
              <div class="webcam-capture"></div>
          </div>
      </div>
      <div class="row">
          <div class="col">
-             <button id="takeabsen" class="btn btn-primary btn-block">
-                 <ion-icon name="camera-outline"></ion-icon>
-                 Absen Masuk</button>
+            @if ($cek > 0)
+            <button id="takeabsen" class="btn btn-danger btn-block">
+                <ion-icon name="camera-outline"></ion-icon>
+                Absen Pulang
+           </button>
+            @else
+            <button id="takeabsen" class="btn btn-primary btn-block">
+                <ion-icon name="camera-outline"></ion-icon>
+                Absen Masuk
+            </button>
+            @endif
+
          </div>
      </div>
      <div class="roww mt-2">
@@ -104,11 +113,22 @@
                  cache: false,
                  success: function(respond) {
                      if (respond.status === true) {
-                         alert(respond.message);
+                        Swal.fire({
+                        title: 'Berhasil',
+                        text: respond.message,
+                        icon: 'success',
+                        confirmButtonText: 'Ok'
+                        })
+                        setTimeout("location.href='/dashboard'",3000)
                      }
                  },
                  error: function(err) {
-                     alert(err.responseJSON.message);
+                        Swal.fire({
+                        title: 'Berhasil',
+                        text: err.responseJSON.message,
+                        icon: 'success',
+                        confirmButtonText: 'Ok'
+                        })
                  }
              });
          });
