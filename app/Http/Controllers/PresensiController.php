@@ -23,11 +23,10 @@ class PresensiController extends Controller
         $folderPath = "public/uploads/absensi/";
         $formatName = $nis . "-" . $tgl_presensi;
         $image_part = explode(";base64", $image);
-        $image_base64 = base64_decode($image_part(1));
+        $image_base64 = base64_decode($image_part[1]);
         $fileName = $formatName . ".png";
         $file = $folderPath . $fileName;
         Storage::put($file, $image_base64);
         echo "0";
     }
-
 }
