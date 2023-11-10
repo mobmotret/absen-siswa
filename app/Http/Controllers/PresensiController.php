@@ -28,7 +28,7 @@ class PresensiController extends Controller
         $jam = date("H:i:s");
         $lokasi = $request->lokasi;
         $image = $request->image;
-        $folderPath = "public/uploads/absensi/";
+        $folderPath = "uploads/absensi/";
         $cek = DB::table('presensi')->where('tgl_presensi', $tgl_presensi)->where('nis', $nis)->count();
 
         if ($cek > 0) {
