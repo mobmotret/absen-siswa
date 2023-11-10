@@ -9,15 +9,25 @@ use Illuminate\Support\Facades\Storage;
 
 class PresensiController extends Controller
 {
+    private $latDepartment, $longDepartment, $radius;
+
+    public function __construct()
+    {
+        $this->latDepartment = "-6.16187";
+        $this->longDepartment = "106.84498";
+        $this->radius = 100;
+    }
+
     public function create()
     {
         //Lokasi Inovindo atau nanti lokasi Sekolah
-        $latDepartment = "-6.97924571609778";
-        $longDepartment = "107.67349137814192";
+        $latDepartment = $this->latDepartment;
+        $longDepartment = $this->longDepartment;
         $hariini = date("Y-m-d");
+        $radius = $this->radius; // dalam meter
         $nis = Auth::guard('siswa')->user()->nis;
         $cek = DB::table('presensi')->where('tgl_presensi', $hariini)->where('nis', $nis)->count();
-        return view('presensi.create', compact('cek', 'latDepartment', 'longDepartment'));
+        return view('presensi.create', compact('cek', 'latDepartment', 'longDepartment', 'radius'));
     }
 
     public function store(Request $request)
@@ -44,7 +54,11 @@ class PresensiController extends Controller
         $fileName = $formatName . ".png";
         $file = $folderPath . $fileName;
 
-        $locDepartment = explode(',', '-6.977825313137006,107.67349137814192'); //koordinat inovindo atau Nanti di ganti koordinat sekolah
+        $latDepartment = $this->latDepartment;
+        $longDepartment = $this->longDepartment;
+        $radius = $this->radius; // dalam meter
+
+        $locDepartment = explode(',', "$latDepartment,$longDepartment"); //koordinat inovindo atau Nanti di ganti koordinat sekolah
         //$locDepartment = explode(',', $lokasi); //koordinta inovindo
         $locUser = explode(',', $lokasi);
 
@@ -72,7 +86,7 @@ class PresensiController extends Controller
         } else {
 
             $jarak = $this->haversineDistance($locDepartment[0], $locDepartment[1], $locUser[0], $locUser[1]);
-            if ($jarak > 500) {
+            if ($jarak > $radius) {
                 return response()->json([
                     'status' => false,
                     'message' => 'Anda di luar radius.'
