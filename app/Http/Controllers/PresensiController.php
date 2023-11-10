@@ -11,7 +11,7 @@ class PresensiController extends Controller
 {
     public function create()
     {
-        //Lokasi Sekolah
+        //Lokasi Inovindo atau nanti lokasi Sekolah
         $latDepartment = "-6.97924571609778";
         $longDepartment = "107.67349137814192";
         $hariini = date("Y-m-d");
@@ -44,7 +44,7 @@ class PresensiController extends Controller
         $fileName = $formatName . ".png";
         $file = $folderPath . $fileName;
 
-        $locDepartment = explode(',', '-6.977825313137006,107.67349137814192'); //koordinta inovindo
+        $locDepartment = explode(',', '-6.977825313137006,107.67349137814192'); //koordinat inovindo atau Nanti di ganti koordinat sekolah
         //$locDepartment = explode(',', $lokasi); //koordinta inovindo
         $locUser = explode(',', $lokasi);
 
